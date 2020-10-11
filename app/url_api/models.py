@@ -6,11 +6,8 @@ class URL(models.Model):
     expired = models.DateField()
     view_count = models.IntegerField()
 
-    def increment_view(self):
-        self.view_count += 1
-        self.save()
-
     def get_absolute_url(self):
+        """Method called automatically when we return a redirect for this model"""
         return self.redirect
 
     def get_id_as_base(self, base=35):
@@ -19,13 +16,13 @@ class URL(models.Model):
         by a short number in the actual url.
         """
         num = self.id
-        ouput = ""
+        output = ""
         while num > 0:
             next_digit = num % base
             if next_digit < 10:
                 output += str(next_digit)
             else:
-                output += chr(ord('A') + dig - 10)
+                output += chr(ord('A') + next_digit - 10)
             num //= base
 
         # We build the number backward so we reverse it before returning
