@@ -1,10 +1,6 @@
-
-document.getElementById('copy-url-btn').addEventListener('click', event => {
-    var urlBox = document.getElementById('url-copy-box');
-    urlBox.select();
-    document.execCommand("copy");
-});
-
+/**
+ * Function will display the new url above the url creation box for easy copying
+ */
 function displayShortenedUrl(urlId){
     var displayDiv = document.getElementById('url-display')
     var redirectUrl = `${window.location.origin}/url/${urlId}`;
@@ -14,6 +10,20 @@ function displayShortenedUrl(urlId){
     //urlDisplay.innerHTML = `<a href="%{redirectUrl}">${redirectUrl}</a>`;
 }
 
+/**
+ * Add an event listener for the copy url button which will highlight the
+ * url and copy it to the clipboard
+ */
+document.getElementById('copy-url-btn').addEventListener('click', event => {
+    var urlBox = document.getElementById('url-copy-box');
+    urlBox.select();
+    document.execCommand("copy");
+});
+
+/**
+ * We dont want the form to actually submit, so we stop propagation with this function
+ * then manually submit the form yourself
+ */
 document.getElementById('shorten-url-btn').addEventListener('click', event => {
     event.preventDefault();
     var data = new FormData(event.target.parentNode);
