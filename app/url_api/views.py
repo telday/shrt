@@ -10,7 +10,7 @@ from django.core import serializers
 
 from url_api.models import URL
 
-url_re = re.compile("http://*\.*")
+url_re = re.compile("http://*")
 
 # Create your views here.
 @method_decorator(csrf_exempt, name='dispatch')
@@ -22,7 +22,7 @@ class URLAPI(View):
 
     def get_expire_date(self):
         """Gets the expire date based off todays date. Links expire in 30 days"""
-        expire_date = datetime.datetime.today() + datetime.timedelta(days=30)
+        expire_date = datetime.date.today() + datetime.timedelta(days=30)
         return expire_date
 
     def get_id_as_int(self, id):
@@ -73,7 +73,6 @@ class URLAPI(View):
         """Add a new URL to the database with the given redirect as a post form element"""
         if 'url' not in request.POST:
             return HttpResponse("You must specify a url!", status=400)
-        # Links expire a month from creation
         expire_date = self.get_expire_date()
         redirect = request.POST.get('url')
         validated  = self.validate_redirect_url(redirect)
@@ -101,7 +100,7 @@ class URLAPI(View):
             return validated
 
         new_expire_date = self.get_expire_date()
-        url.expire_date = new_expire_date
+        url.expired = new_expire_date
         url.view_count = 0
         url.redirect = new_redirect
         url.save()
