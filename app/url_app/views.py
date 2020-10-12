@@ -9,6 +9,7 @@ def index(request):
     return render(request, 'index.html', dict())
 
 def redirect_to_url(request, id):
+    """This is the view for all actual redirects through the url shortener"""
     id_int = int(id, base=35)
     url = get_object_or_404(URL, pk=id_int)
     url.view_count += 1
