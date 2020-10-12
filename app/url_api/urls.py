@@ -5,5 +5,5 @@ import url_api
 
 urlpatterns = [
     path('', URLAPI.as_view()),
-    path('<int:id>', URLAPI.as_view()),
+    path('<str:id>', URLAPI.as_view()),
 ]

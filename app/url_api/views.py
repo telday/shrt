@@ -18,13 +18,14 @@ class URLAPI(View):
     def get(self, request, id=None):
         if id is None:
             return HttpResponse("Specify a url id", status=400)
+        id = int(id, base=35)
         url = get_object_or_404(URL, pk=id)
         json_data = url.__dict__
         json_data.pop('_state')
 
         return JsonResponse(json_data)
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         if 'url' not in request.POST:
             return HttpResponse("You must specify a url!", status=400)
         # Links expire a month from creation
@@ -33,12 +34,13 @@ class URLAPI(View):
         new_url.save()
         return HttpResponse(new_url.get_id_as_base(), status=200)
 
-    def patch(self, request):
+    def patch(self, request, *args, **kwargs):
         return HttpResponse(status=200)
 
-    def delete(self, request id=None):
+    def delete(self, request, id=None):
         if id is None:
             return HttpResponse("You must specify a url id", status=400)
+        id = int(id, base=35)
         url = get_object_or_404(URL, pk=id)
         url.delete()
         url.save()
