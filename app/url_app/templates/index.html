@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -31,44 +33,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
-    <script>
-
-        document.getElementById('copy-url-btn').addEventListener('click', event => {
-            var urlBox = document.getElementById('url-copy-box');
-            urlBox.select();
-            document.execCommand("copy");
-        });
-
-        function displayShortenedUrl(urlId){
-            var displayDiv = document.getElementById('url-display')
-            var redirectUrl = `${window.location.origin}/url/${urlId}`;
-            displayDiv.removeAttribute('hidden');
-            var urlDisplay = document.getElementById('url-copy-box');
-            urlDisplay.setAttribute('value', redirectUrl);
-            //urlDisplay.innerHTML = `<a href="%{redirectUrl}">${redirectUrl}</a>`;
-        }
-
-        document.getElementById('shorten-url-btn').addEventListener('click', event => {
-            event.preventDefault();
-            var data = new FormData(event.target.parentNode);
-            
-            $.ajax({
-                type: "POST",
-                enctype: 'multipart/form-data',
-                url: '/api/',
-                data: data,
-                processData: false,
-                contentType: false,
-                cache: false,
-                timeout: 80000,
-                success: data => {
-                    displayShortenedUrl(data);
-                },
-                error: e => {
-                    console.log(data);
-                }
-            });
-        });
-    </script>
+    <script src="{% static 'url_app.js'%}"></script>
   </body>
 </html>

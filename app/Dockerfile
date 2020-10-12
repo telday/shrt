@@ -1,6 +1,8 @@
 FROM python:3.8.3-alpine
 
-WORKDIR /user/src/app
+
+ENV APP_HOME=/usr/src/app/
+WORKDIR $APP_HOME
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBFFERED 1
@@ -12,7 +14,8 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY ./entrypoint.sh /usr/src/app/
+COPY ./entrypoint.sh $APP_HOME
+run mkdir $APP_HOME/staticfiles
 
 COPY . .
 
