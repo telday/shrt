@@ -27,7 +27,7 @@ class URLAPI(View):
         print(request.POST)
         if 'url' not in request.POST:
             return HttpResponse("You must specify a url!", status=400)
-        expire_date = datetime.datetime.today()
+        expire_date = datetime.datetime.today() + datetime.timedelta(days=30)
         new_url = URL(redirect=request.POST.get('url'), expired=expire_date, view_count=0)
         new_url.save()
         return HttpResponse(new_url.get_id_as_base(), status=200)
